@@ -1,0 +1,20 @@
+[package]
+name = "inventorysystem-api"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+
+anyhow = "1.0.86"
+axum = { version = "0.7.5", features = ["http2"] }
+dotenvy = "0.15.7"
+sea-orm = { version = "1.0.0", features = ["runtime-tokio", "runtime-tokio-rustls", "sqlx-postgres"] }
+serde = { version = "1.0.205", features = ["derive"] }
+tokio = { version = "1.39.2", features = ["rt", "macros", "rt-multi-thread"] }
+entity = { path = "../entity" }
+migration = { path = "../migration" }
+tracing-subscriber = "0.3.18"
+tracing = "0.1.40"
+tower-http = { version = "0.5.2", features = ["trace"] }
+tracing-appender = "0.2.3"

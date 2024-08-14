@@ -1,0 +1,11 @@
+[package]
+name = "inventorysystem"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+members = [".", "entity", "migration", "api"]
+
+[dependencies]
+anyhow = "1.0.86"
+inventorysystem-api = { path = "./api" }
