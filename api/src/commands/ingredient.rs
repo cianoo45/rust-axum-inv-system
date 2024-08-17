@@ -1,6 +1,6 @@
 // Ingredient Commands to decouple the route handler from the data access logic
 
-use crate::errors::AppError;
+use crate::errors::{AppError, Result};
 use axum::http::StatusCode;
 use entity::ingredient;
 use entity::ingredient::Entity as Ingredients;
@@ -15,7 +15,7 @@ use serde::Deserialize;
 pub async fn find_ingredient_by_id(
     ingredient_id: i32,
     db: &DatabaseConnection,
-) -> Result<Ingredient, AppError> {
+) -> Result<Ingredient> {
     let ingredient = Ingredients::find_by_id(ingredient_id).one(db).await?;
 
     match ingredient {
@@ -37,7 +37,7 @@ pub struct CreateIngredient {
 pub async fn create_and_save_ingredient(
     ingredient: CreateIngredient,
     db: &DatabaseConnection,
-) -> Result<(), AppError> {
+) -> Result<()> {
     let ingredient = ingredient::ActiveModel {
         id: NotSet,
         name: Set(ingredient.name),
@@ -58,7 +58,7 @@ pub async fn update_and_save_ingredient(
     ingredient_id: i32,
     update_ingredient: UpdateIngredient,
     db: &DatabaseConnection,
-) -> Result<(), AppError> {
+) -> Result<()> {
     let mut db_ingredient = find_ingredient_by_id(ingredient_id, db)
         .await?
         .into_active_model();

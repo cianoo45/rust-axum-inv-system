@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::fmt;
 
+pub type Result<T> = std::result::Result<T, AppError>;
+
 #[derive(Debug)]
 pub struct AppError {
     code: StatusCode,
@@ -11,6 +13,8 @@ pub struct AppError {
 }
 
 // All errors should be created with new() to fire to the logs
+// Log message is provided to log a more informative message
+// message will be displayed to the user
 impl AppError {
     pub fn new(
         code: StatusCode,
