@@ -12,3 +12,9 @@ pub fn get_database_url() -> Result<String> {
     let database_uri = std::env::var("DATABASE_URL")?;
     Ok(database_uri)
 }
+
+pub fn get_test_database_url() -> Result<String> {
+    dotenv()?;
+    let database_uri = std::env::var("TEST_DATABASE_URL")?;
+    Ok(database_uri)
+}

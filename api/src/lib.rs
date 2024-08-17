@@ -1,5 +1,6 @@
-mod database;
-mod errors;
+pub mod commands;
+pub mod database;
+pub mod errors;
 mod routes;
 
 use crate::database::{database_connection, get_database_url};

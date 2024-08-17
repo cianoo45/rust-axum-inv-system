@@ -8,7 +8,6 @@ use std::fmt;
 pub struct AppError {
     code: StatusCode,
     message: String,
-    log_message: String,
 }
 
 // All errors should be created with new() to fire to the logs
@@ -26,17 +25,19 @@ impl AppError {
             _ => (),
         }
 
-        Self {
-            code,
-            message,
-            log_message,
-        }
+        Self { code, message }
     }
 }
 
 impl fmt::Display for AppError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{} - {}", self.code, self.message)
+    }
+}
+
+impl PartialEq for AppError {
+    fn eq(&self, other: &Self) -> bool {
+        (self.code == other.code) & (self.message == other.message)
     }
 }
 
