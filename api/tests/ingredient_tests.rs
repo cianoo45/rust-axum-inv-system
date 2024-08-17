@@ -4,8 +4,8 @@ use axum::http::StatusCode;
 use common::{create_test_data, test_database_setup};
 use inventorysystem_api::{
     commands::ingredient::{
-        create_and_save_ingredient, find_ingredient_by_id, update_and_save_ingredient,
-        CreateIngredient, UpdateIngredient,
+        create_and_save_ingredient, delete_ingredient_by_id, find_ingredient_by_id,
+        update_and_save_ingredient, CreateIngredient, UpdateIngredient,
     },
     errors::AppError,
 };
@@ -57,6 +57,22 @@ async fn test_update_ingredient() -> Result<()> {
 
     let ingredient = find_ingredient_by_id(1, &test_db).await?;
     assert!(ingredient.name == "Lettuce".to_string());
+
+    Ok(())
+}
+
+#[tokio::test]
+async fn test_delete_ingredient() -> Result<()> {
+    let test_db = test_database_setup().await?;
+    create_test_data(&test_db).await?;
+
+    delete_ingredient_by_id(1, &test_db).await?;
+
+    let ingredient = find_ingredient_by_id(1, &test_db).await;
+    assert_eq!(
+        ingredient.err().unwrap(),
+        AppError::new(StatusCode::NOT_FOUND, "Specified Ingredient Not Found", "",)
+    );
 
     Ok(())
 }

@@ -77,3 +77,9 @@ pub async fn update_and_save_ingredient(
 
     Ok(())
 }
+
+pub async fn delete_ingredient_by_id(ingredient_id: i32, db: &DatabaseConnection) -> Result<()> {
+    Ingredients::delete_by_id(ingredient_id).exec(db).await?;
+
+    Ok(())
+}
